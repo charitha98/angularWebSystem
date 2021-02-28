@@ -1,0 +1,136 @@
+<div style="align-items: flex-end">    
+  <mat-progress-bar [value] ="progress" mode="determinate" color="primary"> 
+  </mat-progress-bar></div>
+  
+<div class="search-div">
+
+  <button mat-raised-button color="accent"  (click)="print()">
+    <mat-icon class="mat-24"    aria-label="Example icon-button with a heart icon">print</mat-icon> Generate Report</button>
+  
+    <mat-form-field class="search-form-field" floatLabel="never">
+
+      <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyfilter()">
+  
+      <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchclear()">
+  
+        <mat-icon>close</mat-icon>  
+  
+      </button>
+    
+    </mat-form-field>  
+    
+</div>
+<mat-spinner *ngIf = "showSpinner" style="margin:0 auto;" ></mat-spinner>
+    <div id="report">
+        <mat-toolbar>
+            <span class="fill-remaining-space"></span>
+            <span>Order Report</span>
+            <span class="fill-remaining-space"></span>
+        </mat-toolbar>
+       
+
+      <div class="mat-elevation-z8">
+        <mat-table [dataSource]="listData"  matSort>
+         
+            <ng-container matColumnDef="Order ID">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Order ID</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element; index as i">{{i+1}}</mat-cell>
+          
+              </ng-container>
+              <ng-container matColumnDef="shipping.name">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Customer Name</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element">{{element.shipping.name}}</mat-cell>
+          
+              </ng-container>
+              <ng-container matColumnDef="shipping.phone">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Mobile No</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element">{{element.shipping.phone}}</mat-cell>
+          
+              </ng-container>
+              <ng-container matColumnDef="shipping.addressLine1">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Address</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element">{{element.shipping.addressLine1}}<br>{{element.shipping.addressLine2}}</mat-cell>
+          
+              </ng-container>
+              <ng-container matColumnDef="datePlaced">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Date Placed</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element">{{element.datePlaced}}</mat-cell>
+          
+              </ng-container>
+      
+    
+          <ng-container matColumnDef="totalprice">
+      
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Total Price</mat-header-cell>
+      
+            <mat-cell *matCellDef="let element">${{element.totalprice}}</mat-cell>
+      
+          </ng-container>
+          <ng-container matColumnDef="newprice">
+      
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>New Price</mat-header-cell>
+      
+            <mat-cell *matCellDef="let element">${{element.newprice}}</mat-cell>
+      
+          </ng-container>
+
+    
+
+          <ng-container  matColumnDef="Quantities">
+  
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Quantities</mat-header-cell>  
+            <mat-cell *matCellDef="let element" > 
+                <ng-container *ngFor = "let key of objectKeys(element.items)">
+                
+                    *{{element.items[key].quantity}}<br><br>
+                  
+                  </ng-container>
+              </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Titles">
+      
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Product Titles</mat-header-cell>
+      
+            <mat-cell *matCellDef="let element" >
+              
+              <ng-container *ngFor = "let key of objectKeys(element.items)">
+                  *{{element.items[key].title}}<br><br></ng-container>
+                  
+            </mat-cell>
+      
+          </ng-container>
+        
+        <div matColumnDef="actions">
+    
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      
+            <mat-cell *matCellDef="let row">
+      
+              <button mat-icon-button color="warn" (click)="ondelete(row.$key)"><mat-icon>delete_outline</mat-icon></button>
+      
+            </mat-cell>
+      
+        </div>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      
+          
+        </mat-table>
+      </div>   
+    </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    
+      

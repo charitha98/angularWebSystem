@@ -1,0 +1,30 @@
+<h1 style="text-align: center">My Orders</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date Placed</th>
+      <th>Address</th>
+      <th>Total Price</th>
+      <th>New Price</th>
+      <th>Product Titles & Quantities</th>
+      
+
+    </tr>
+  </thead> 
+  <tbody>
+    <tr *ngFor="let order of orders$ | async">
+      <td>{{ order.shipping.name }}</td>
+      <td>{{ order.datePlaced | date}}</td> 
+      <td>{{ order.shipping.addressLine1}}<br>{{order.shipping.addressLine2}}</td> 
+      <td>LKR {{ order.totalprice}}</td>
+      <td>LKR {{ order.newprice}}</td>
+      <td>
+      <tr *ngFor="let key of objectKeys(order.items)"><td>{{order.items[key].title}} - {{order.items[key].quantity}}</td></tr>  
+    </td>
+    </tr>
+
+    
+  </tbody> 
+
+</table>

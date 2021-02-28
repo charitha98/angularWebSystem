@@ -1,0 +1,88 @@
+
+<div class="search-div">
+    <button mat-raised-button color="accent" (click)="print()">
+        <mat-icon class="mat-24"   aria-label="Example icon-button with a heart icon">print</mat-icon> Generate Report</button>
+    <button mat-raised-button (click)="oncreate()">
+  
+      <mat-icon>add</mat-icon>Create
+  
+    </button>
+    <mat-form-field class="search-form-field" floatLabel="never">
+
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyfilter()">
+    
+        <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchclear()">
+    
+          <mat-icon>close</mat-icon>  
+    
+        </button>
+      
+      </mat-form-field> 
+      <mat-spinner *ngIf = "showSpinner" style="margin:0 auto;" ></mat-spinner><br><br> 
+      <div id = "report">
+        <mat-toolbar>
+          <span class="fill-remaining-space"></span>
+          <span>Promotions Report</span>
+          <span class="fill-remaining-space"></span>
+      </mat-toolbar>
+            <div class="mat-elevation-z8">
+
+        <mat-table [dataSource]="listData"  matSort>
+
+            <ng-container matColumnDef="Promocode No" >
+       
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Promocode No</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element; index as i" >{{i + 1}}</mat-cell>
+          
+              </ng-container>
+              <ng-container matColumnDef="promocode">
+      
+                <mat-header-cell *matHeaderCellDef  mat-sort-header>Promotion Code</mat-header-cell>
+          
+                <mat-cell *matCellDef="let element">{{element.promocode}}</mat-cell>
+          
+              </ng-container>
+      
+          <ng-container matColumnDef="discount">
+      
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Discount</mat-header-cell>
+      
+            <mat-cell *matCellDef="let element">{{element.discount}}</mat-cell>
+      
+          </ng-container>
+
+          <ng-container matColumnDef="dateAdded">
+      
+            <mat-header-cell *matHeaderCellDef  mat-sort-header>Date Added</mat-header-cell>
+      
+            <mat-cell *matCellDef="let element">{{element.dateAdded | date :'yyyy-MM-dd'}}</mat-cell>
+      
+          </ng-container>
+    
+        <ng-container matColumnDef="actions">
+    
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      
+            <mat-cell *matCellDef="let row">
+      
+              <button mat-icon-button (click)="onedit(row)"><mat-icon>launch</mat-icon></button>
+      
+              <button mat-icon-button color="warn" (click)="ondelete(row.$key)"><mat-icon>delete_outline</mat-icon></button>
+      
+            </mat-cell>
+      
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      
+          
+        </mat-table>
+      </div>
+    </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    
+        
+    
